@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="./lib/bootstrap.min.css"/>
+    <style>
+        .content{
+            width: 800px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+  <div class="content" id='box'>
+      <form>
+          <div class="form-group">
+              <label for="exampleInputEmail1">用户名</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入用户名" v-model='username'>
+          </div>
+          <div class="form-group">
+              <label for="exampleInputPassword1">年龄</label>
+              <input type="text" class="form-control" id="exampleInputPassword1" placeholder="请输入年龄" v-model='age'>
+          </div>
+          <input type="button" value="添加" class="btn btn-info" v-on:click='add()'/>
+          <input type="submit" value="重置" class='btn btn-danger'/>
+
+
+
+      </form>
+      <table class="table table-bordered">
+          <caption class="h2 text-info">用户信息</caption>
+         <tr >
+             <th class='text-center text-danger'>序号</th>
+             <th class='text-center text-danger'>名字</th>
+             <th class='text-center text-danger'>年龄</th>
+             <th class='text-center text-danger'>操作</th>
+         </tr>
+          <tr class='text-center' v-for="item in myDate">
+              <td class='text-center '>{{$index+1}}</td>
+              <td >{{item.username}}</td>
+              <td >{{item.age}}</td>
+              <td class='text-center'>
+                  <input type="button" class="btn btn-danger" value="删除" v-on:click="del()"/>
+              </td>
+          </tr>
+          <!--<tr>-->
+              <!--<td class='text-center'>2</td>-->
+              <!--<td class='text-center'>Bull</td>-->
+              <!--<td class='text-center'>30</td>-->
+              <!--<td class='text-center'>-->
+                  <!--<input type="button" class="btn btn-danger" value="删除"/>-->
+              <!--</td>-->
+
+
+          <!--</tr>-->
+         <tr>
+             <td colspan="4" class="text-right">
+                 <button class="btn btn-danger btn-sm" v-on:click="nowIndex=-2" data-toggle="modal" data-target="#layer" >删除全部</button>
+             </td>
+         </tr>
+          <tr>
+              <td colspan="4" class="text-center">
+                  <p class="h3 text-info" >暂无数据</p>
+              </td>
+          </tr>
+      </table>
+      <div>
+          <!--模态框 弹出框-->
+          <div role="dialog" class="modal fade bs-example-modal-sm" id="layer">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">
+                              <span>&times;</span>
+                          </button>
+                          <h4 class="modal-title">确认删除么?</h4>
+                      </div>
+                      <div class="modal-body text-right">
+                          <button data-dismiss="modal" class="btn btn-primary btn-sm">取消</button>
+                          <button data-dismiss="modal" class="btn btn-danger btn-sm" v-on:click='del(nowIndex)'>确认</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+
+
+  </div>
+
+</body>
+</html>
+<script src='vue.js'></script>
+<script src="./lib/jquery-1.7.2.js"></script>
+<script src='./lib/bootstrap.js'></script>
+
+<script>
+ new Vue({
+     el:'#box',
+     data:{
+        myDate:[],
+         username:'',
+         age:'',
+         nowIndex:-100
+     },
+     methods:{
+       add:function(){
+           this.myDate.push({
+               username:this.username,
+               age:this.age
+
+           });
+           this.username='';
+           this.age='';
+       },
+         del:function(n){
+             if(n==-2){
+                 this.myDate=[];
+             }else{
+                 this.myDate.splice(n,1)
+             }
+         }
+     }
+ })
+</script>
